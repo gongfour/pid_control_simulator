@@ -1,8 +1,8 @@
 import { Text } from "@tremor/react";
 
 interface InputControlsProps {
-  inputType: "constant" | "step" | "sine";
-  onInputTypeChange: (type: "constant" | "step" | "sine") => void;
+  inputType: "constant" | "sine";
+  onInputTypeChange: (type: "constant" | "sine") => void;
   inputParams: any;
   onInputParamsChange: (params: any) => void;
   noiseLevel: number;
@@ -19,7 +19,6 @@ export function InputControls({
 }: InputControlsProps) {
   const tabs = [
     { id: "constant", label: "상수" },
-    { id: "step", label: "단계" },
     { id: "sine", label: "정현파" },
   ];
 
@@ -82,64 +81,6 @@ export function InputControls({
                 className="w-20 px-2 py-1 text-sm font-semibold text-center border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500"
               />
             </div>
-          </div>
-        )}
-
-        {/* Step Tab */}
-        {inputType === "step" && (
-          <div className="space-y-3">
-            {(inputParams.steps || []).map((step: any, idx: number) => (
-              <div
-                key={idx}
-                className="p-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800/50 space-y-3"
-              >
-                <div className="flex gap-3">
-                  <div className="flex-1">
-                    <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 block mb-1">
-                      시작 시간 (초)
-                    </label>
-                    <input
-                      type="number"
-                      value={step.time}
-                      placeholder="0"
-                      onChange={(e) => {
-                        const ns = [...inputParams.steps];
-                        ns[idx].time = parseFloat(e.target.value);
-                        onInputParamsChange({ ...inputParams, steps: ns });
-                      }}
-                      className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500"
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 block mb-1">
-                      목표값
-                    </label>
-                    <input
-                      type="number"
-                      value={step.value}
-                      placeholder="0"
-                      onChange={(e) => {
-                        const ns = [...inputParams.steps];
-                        ns[idx].value = parseFloat(e.target.value);
-                        onInputParamsChange({ ...inputParams, steps: ns });
-                      }}
-                      className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500"
-                    />
-                  </div>
-                </div>
-              </div>
-            ))}
-            <button
-              onClick={() =>
-                onInputParamsChange({
-                  ...inputParams,
-                  steps: [...(inputParams.steps || []), { time: 5, value: 0 }],
-                })
-              }
-              className="w-full px-4 py-2 bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 text-blue-700 dark:text-blue-400 font-semibold rounded-lg transition-colors"
-            >
-              + 단계 추가
-            </button>
           </div>
         )}
 

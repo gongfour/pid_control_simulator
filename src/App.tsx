@@ -16,15 +16,12 @@ function App() {
     kd: 0.1,
   });
 
-  const [inputType, setInputType] = useState<"constant" | "step" | "sine">(
-    "step",
-  );
+  const [inputType, setInputType] = useState<"constant" | "sine">("constant");
   const [inputParams, setInputParams] = useState({
-    steps: [
-      { time: 0, value: 0 },
-      { time: 2, value: 100 },
-      { time: 5, value: 50 },
-    ],
+    value: 100,
+    amplitude: 100,
+    frequency: 0.1,
+    offset: 0,
   });
 
   const [noiseLevel, setNoiseLevel] = useState(0);
