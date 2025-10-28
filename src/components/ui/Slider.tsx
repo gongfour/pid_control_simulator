@@ -1,5 +1,5 @@
-import * as React from "react"
-import * as SliderPrimitive from "@radix-ui/react-slider"
+import * as React from "react";
+import * as SliderPrimitive from "@radix-ui/react-slider";
 
 const Slider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
@@ -7,15 +7,19 @@ const Slider = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SliderPrimitive.Root
     ref={ref}
-    className={`relative flex w-full touch-none select-none items-center ${className || ""}`}
+    className={`relative flex w-full touch-none select-none items-center py-2 ${className || ""}`}
     {...props}
   >
-    <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
-      <SliderPrimitive.Range className="absolute h-full bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-500 dark:to-blue-700" />
+    {/* Track Background */}
+    <SliderPrimitive.Track className="relative h-1 w-full grow overflow-hidden rounded-full bg-neutral-variant-40 dark:bg-neutral-variant-40">
+      {/* Track Fill */}
+      <SliderPrimitive.Range className="absolute h-full bg-blue-600 dark:bg-blue-400 transition-all" />
     </SliderPrimitive.Track>
-    <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-blue-500 bg-white shadow-md hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:border-blue-400 dark:bg-slate-900 dark:focus-visible:ring-offset-slate-950 cursor-pointer transition-all" />
-  </SliderPrimitive.Root>
-))
-Slider.displayName = SliderPrimitive.Root.displayName
 
-export { Slider }
+    {/* Thumb (Handle) */}
+    <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-0 bg-blue-600 shadow-1 hover:shadow-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-40 dark:bg-blue-400 dark:focus-visible:ring-offset-neutral-10 cursor-pointer transition-all duration-150 active:scale-110 hover:scale-110" />
+  </SliderPrimitive.Root>
+));
+Slider.displayName = SliderPrimitive.Root.displayName;
+
+export { Slider };

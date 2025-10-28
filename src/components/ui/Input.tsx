@@ -1,18 +1,35 @@
-import * as React from "react"
+import * as React from "react";
 
 export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  variant?: "filled" | "outlined";
+}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, ...props }, ref) => (
-    <input
-      type={type}
-      className={`flex h-10 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-900 placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-50 dark:placeholder:text-slate-500 dark:focus-visible:ring-offset-slate-900 transition-colors ${className || ""}`}
-      ref={ref}
-      {...props}
-    />
-  )
-)
-Input.displayName = "Input"
+  ({ className, type, variant = "outlined", ...props }, ref) => {
+    const baseStyles =
+      "flex h-14 rounded-sm border transition-all duration-200 px-4 py-3 text-body-lg font-normal placeholder:text-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-40";
 
-export { Input }
+    const variants = {
+      // Outlined (기본)
+      outlined:
+        "border-2 border-neutral-50 bg-white text-neutral-10 focus-visible:ring-blue-600 focus-visible:border-blue-600 dark:border-neutral-variant-40 dark:bg-neutral-10 dark:text-neutral-95",
+
+      // Filled
+      filled:
+        "border-b-2 border-neutral-40 bg-neutral-95 text-neutral-10 focus-visible:ring-blue-600 focus-visible:border-blue-600 dark:border-neutral-variant-50 dark:bg-neutral-20 dark:text-neutral-95",
+    };
+
+    return (
+      <input
+        type={type}
+        className={`${baseStyles} ${variants[variant]} ${className || ""}`}
+        ref={ref}
+        {...props}
+      />
+    );
+  },
+);
+Input.displayName = "Input";
+
+export { Input };

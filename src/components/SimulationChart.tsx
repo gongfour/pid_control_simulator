@@ -1,4 +1,3 @@
-import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,9 +8,9 @@ import {
   Tooltip,
   Legend,
   Filler,
-} from 'chart.js';
-import type { SimulationStep } from '../utils/pidSimulation';
-import { Card, CardHeader, CardTitle, CardContent } from './ui/Card';
+} from "chart.js";
+import { Line } from "react-chartjs-2";
+import type { SimulationStep } from "../utils/pidSimulation";
 
 ChartJS.register(
   CategoryScale,
@@ -21,7 +20,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  Filler
+  Filler,
 );
 
 interface SimulationChartProps {
@@ -31,171 +30,125 @@ interface SimulationChartProps {
 export function SimulationChart({ data }: SimulationChartProps) {
   if (data.length === 0) {
     return (
-      <Card className="h-full">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <span className="text-2xl">📈</span>
-            시뮬레이션 결과
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="h-96 flex items-center justify-center bg-slate-100 dark:bg-slate-800 rounded-lg">
-            <p className="text-slate-500 dark:text-slate-400 text-center">
-              시뮬레이션을 실행하면 그래프가 표시됩니다
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="h-96 flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-lg">
+        <p className="text-gray-500 dark:text-gray-400 text-center">
+          시뮬레이션을 실행하면 그래프가 표시됩니다
+        </p>
+      </div>
     );
   }
 
+  // Chart.js 데이터 포맷
+  const labels = data.map((_, idx) => (idx * 0.01).toFixed(2));
+
   const chartData = {
-    labels: data.map((d) => d.time.toFixed(1)),
+    labels,
     datasets: [
       {
-        label: '목표값 (Reference)',
-        data: data.map((d) => d.reference),
-        borderColor: 'rgb(59, 130, 246)',
-        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-        tension: 0.3,
-        fill: true,
-        borderWidth: 2.5,
-        pointRadius: 0,
-        pointHoverRadius: 5,
-      },
-      {
-        label: '실제값 (Output)',
-        data: data.map((d) => d.output),
-        borderColor: 'rgb(239, 68, 68)',
-        backgroundColor: 'rgba(239, 68, 68, 0.1)',
-        tension: 0.3,
-        fill: true,
-        borderWidth: 2.5,
-        pointRadius: 0,
-        pointHoverRadius: 5,
-      },
-      {
-        label: '제어신호 (Control)',
-        data: data.map((d) => d.control),
-        borderColor: 'rgb(34, 197, 94)',
-        backgroundColor: 'transparent',
-        tension: 0.3,
-        fill: false,
+        label: "시스템 응답",
+        data: data.map((d) => parseFloat(d.output.toFixed(2))),
+        borderColor: "#ef4444",
+        backgroundColor: "rgba(239, 68, 68, 0.1)",
         borderWidth: 2,
-        borderDash: [5, 5],
+        tension: 0.4,
         pointRadius: 0,
-        pointHoverRadius: 5,
-        yAxisID: 'y1',
+        fill: false,
+      },
+      {
+        label: "참조값",
+        data: data.map((d) => parseFloat(d.reference.toFixed(2))),
+        borderColor: "#3b82f6",
+        backgroundColor: "rgba(59, 130, 246, 0.1)",
+        borderWidth: 2,
+        tension: 0.4,
+        pointRadius: 0,
+        fill: false,
+      },
+      {
+        label: "제어신호",
+        data: data.map((d) => parseFloat(d.control.toFixed(2))),
+        borderColor: "#22c55e",
+        backgroundColor: "rgba(34, 197, 94, 0.1)",
+        borderWidth: 2,
+        tension: 0.4,
+        pointRadius: 0,
+        fill: false,
       },
     ],
   };
 
-  const options: any = {
+  const options = {
     responsive: true,
     maintainAspectRatio: false,
-    interaction: {
-      mode: 'index' as const,
-      intersect: false,
-    },
     plugins: {
       legend: {
-        position: 'top' as const,
+        position: "top" as const,
         labels: {
-          boxWidth: 12,
-          padding: 20,
-          font: { size: 13, weight: 500 },
           usePointStyle: true,
-          color: '#64748b',
+          padding: 20,
+          font: {
+            size: 14,
+            weight: "500" as const,
+          },
+          color: "rgb(107, 114, 128)",
         },
       },
-      filler: {
-        propagate: true,
-      },
       tooltip: {
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        padding: 14,
-        titleFont: { size: 14, weight: 600 },
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        padding: 12,
+        titleFont: { size: 14, weight: "bold" as const },
         bodyFont: { size: 13 },
-        borderColor: 'rgba(255, 255, 255, 0.2)',
-        borderWidth: 1,
+        cornerRadius: 8,
+        displayColors: true,
+        callbacks: {
+          label: function (context: any) {
+            return `${context.dataset.label}: ${context.parsed.y.toFixed(2)}`;
+          },
+        },
       },
     },
     scales: {
-      y: {
-        type: 'linear' as const,
-        display: true,
-        position: 'left' as const,
-        title: {
-          display: true,
-          text: 'Output / Reference',
-          font: { size: 13, weight: 600 },
-          color: '#64748b',
-          padding: { top: 12, bottom: 12 },
-        },
-        grid: {
-          color: 'rgba(203, 213, 225, 0.2)',
-          drawBorder: true,
-        },
-        ticks: {
-          font: { size: 12 },
-          color: '#64748b',
-          padding: 10,
-        },
-      },
-      y1: {
-        type: 'linear' as const,
-        display: true,
-        position: 'right' as const,
-        title: {
-          display: true,
-          text: 'Control Signal',
-          font: { size: 13, weight: 600 },
-          color: '#64748b',
-          padding: { top: 12, bottom: 12 },
-        },
-        grid: {
-          drawOnChartArea: false,
-        },
-        ticks: {
-          font: { size: 12 },
-          color: '#64748b',
-          padding: 10,
-        },
-      },
       x: {
         title: {
           display: true,
-          text: 'Time (s)',
-          font: { size: 13, weight: 600 },
-          color: '#64748b',
-          padding: { top: 12, bottom: 12 },
-        },
-        grid: {
-          color: 'rgba(203, 213, 225, 0.1)',
+          text: "시간 (초)",
+          font: { size: 13, weight: "bold" as const },
+          color: "rgb(107, 114, 128)",
         },
         ticks: {
+          color: "rgb(107, 114, 128)",
           font: { size: 12 },
-          color: '#64748b',
-          padding: 10,
-          maxTicksLimit: 10,
+        },
+        grid: {
+          color: "rgba(209, 213, 219, 0.3)",
+          drawBorder: false,
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "값",
+          font: { size: 13, weight: "bold" as const },
+          color: "rgb(107, 114, 128)",
+        },
+        ticks: {
+          color: "rgb(107, 114, 128)",
+          font: { size: 12 },
+          callback: function (value: any) {
+            return value.toFixed(2);
+          },
+        },
+        grid: {
+          color: "rgba(209, 213, 219, 0.3)",
+          drawBorder: false,
         },
       },
     },
   };
 
   return (
-    <Card className="h-full flex flex-col">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <span className="text-2xl">📈</span>
-          시뮬레이션 결과
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="flex-1 flex flex-col min-h-0 p-8">
-        <div style={{ height: '550px' }} className="w-full flex-1">
-          <Line data={chartData} options={options} />
-        </div>
-      </CardContent>
-    </Card>
+    <div className="h-96 w-full">
+      <Line data={chartData} options={options} />
+    </div>
   );
 }

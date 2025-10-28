@@ -1,16 +1,38 @@
-import * as React from "react"
+import * as React from "react";
 
-const Card = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={`rounded-xl border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-900 transition-shadow hover:shadow-xl ${className || ""}`}
-    {...props}
-  />
-))
-Card.displayName = "Card"
+// Material Design 3 Card variants
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+  variant?: "filled" | "outlined" | "elevated";
+}
+
+const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ className, variant = "outlined", ...props }, ref) => {
+    const baseStyles = "rounded-lg transition-all duration-300";
+
+    const variants = {
+      // Outlined - 강한 테두리로 구분감 강화
+      outlined:
+        "border-2 border-neutral-variant-40 bg-white dark:border-neutral-variant-30 dark:bg-neutral-10 hover:shadow-2 hover:border-neutral-variant-50 dark:hover:border-neutral-variant-40",
+
+      // Filled - 배경 그라데이션으로 깊이감 표현
+      filled:
+        "border-0 bg-gradient-to-br from-neutral-97 to-neutral-93 dark:from-neutral-18 dark:to-neutral-12 shadow-1",
+
+      // Elevated - 강한 그림자로 띄워내기
+      elevated:
+        "border-0 bg-white shadow-3 dark:bg-neutral-10 dark:shadow-3 hover:shadow-5",
+    };
+
+    return (
+      <div
+        ref={ref}
+        className={`${baseStyles} ${variants[variant]} ${className || ""}`}
+        {...props}
+      />
+    );
+  },
+);
+Card.displayName = "Card";
 
 const CardHeader = React.forwardRef<
   HTMLDivElement,
@@ -18,11 +40,13 @@ const CardHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={`flex flex-col space-y-2 border-b border-slate-200 p-8 dark:border-slate-700 ${className || ""}`}
+    className={`flex flex-col gap-2 border-b-2 border-neutral-variant-30 px-7 py-5 dark:border-neutral-variant-25 ${
+      className || ""
+    }`}
     {...props}
   />
-))
-CardHeader.displayName = "CardHeader"
+));
+CardHeader.displayName = "CardHeader";
 
 const CardTitle = React.forwardRef<
   HTMLParagraphElement,
@@ -30,18 +54,20 @@ const CardTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <h2
     ref={ref}
-    className={`text-xl font-bold text-slate-900 dark:text-slate-50 ${className || ""}`}
+    className={`text-headline-md font-medium text-neutral-10 dark:text-neutral-99 ${
+      className || ""
+    }`}
     {...props}
   />
-))
-CardTitle.displayName = "CardTitle"
+));
+CardTitle.displayName = "CardTitle";
 
 const CardContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={`p-8 space-y-6 ${className || ""}`} {...props} />
-))
-CardContent.displayName = "CardContent"
+  <div ref={ref} className={`px-7 py-6 ${className || ""}`} {...props} />
+));
+CardContent.displayName = "CardContent";
 
-export { Card, CardHeader, CardTitle, CardContent }
+export { Card, CardHeader, CardTitle, CardContent };

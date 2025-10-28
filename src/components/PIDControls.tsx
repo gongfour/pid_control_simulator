@@ -1,9 +1,6 @@
-import { useState } from 'react';
-import type { PIDParams } from '../utils/pidSimulation';
-import { Card, CardHeader, CardTitle, CardContent } from './ui/Card';
-import { Slider } from './ui/Slider';
-import { Input } from './ui/Input';
-import { Button } from './ui/Button';
+import { useState } from "react";
+import type { PIDParams } from "../utils/pidSimulation";
+import { Text, Card } from "@tremor/react";
 
 interface PIDControlsProps {
   pidParams: PIDParams;
@@ -16,22 +13,30 @@ export function PIDControls({
   onParamsChange,
   onReset,
 }: PIDControlsProps) {
-  const [activeInput, setActiveInput] = useState<'kp' | 'ki' | 'kd' | null>(null);
-
-  const handleSliderChange = (param: 'kp' | 'ki' | 'kd', value: number[]) => {
+  const handleSliderChange = (param: "kp" | "ki" | "kd", value: number) => {
     onParamsChange({
       ...pidParams,
-      [param]: value[0],
+      [param]: value,
     });
   };
 
-  const handleInputChange = (param: 'kp' | 'ki' | 'kd', value: string) => {
+  const handleInputChange = (param: "kp" | "ki" | "kd", value: string) => {
     const numValue = parseFloat(value) || 0;
     onParamsChange({
       ...pidParams,
       [param]: numValue,
     });
   };
+
+  interface ParamConfig {
+    label: string;
+    param: "kp" | "ki" | "kd";
+    value: number;
+    min: number;
+    max: number;
+    step: number;
+    color: string;
+  }
 
   const ParamControl = ({
     label,
@@ -41,96 +46,85 @@ export function PIDControls({
     max,
     step,
     color,
-  }: {
-    label: string;
-    param: 'kp' | 'ki' | 'kd';
-    value: number;
-    min: number;
-    max: number;
-    step: number;
-    color: string;
-  }) => (
-    <div className="space-y-5">
-      <div className="flex items-center justify-between">
-        <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+  }: ParamConfig) => (
+    <div className={`p-4 rounded-lg border-2 ${color} bg-opacity-10`}>
+      <div className="flex justify-between items-center mb-3">
+        <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
           {label}
         </label>
-        <span className={`text-lg font-bold ${color}`}>
-          {value.toFixed(3)}
-        </span>
+        <span className={`text-lg font-bold ${color}`}>{value.toFixed(3)}</span>
       </div>
-      <Slider
-        min={min}
-        max={max}
-        step={step}
-        value={[value]}
-        onValueChange={(val) => handleSliderChange(param, val)}
-        className="cursor-pointer"
-      />
-      <Input
-        type="number"
-        value={value}
-        onChange={(e) => handleInputChange(param, e.target.value)}
-        step={step}
-        min={min}
-        max={max}
-        className="text-sm"
-      />
+
+      <div className="flex gap-3 items-center">
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          onChange={(e) =>
+            handleSliderChange(param, parseFloat(e.target.value))
+          }
+          className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-current"
+          style={{
+            accentColor: color.includes("blue")
+              ? "#2563eb"
+              : color.includes("amber")
+                ? "#f59e0b"
+                : "#8b5cf6",
+          }}
+        />
+        <input
+          type="number"
+          value={value}
+          onChange={(e) => handleInputChange(param, e.target.value)}
+          step={step}
+          min={min}
+          max={max}
+          className="w-20 px-2 py-1 text-sm font-semibold text-center border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:border-current"
+        />
+      </div>
     </div>
   );
 
   return (
-    <Card className="h-full">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <span className="text-2xl">⚙️</span>
-          PID 파라미터
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-10">
-        <ParamControl
-          label="Kp (비례 계수)"
-          param="kp"
-          value={pidParams.kp}
-          min={0}
-          max={5}
-          step={0.01}
-          color="text-blue-600 dark:text-blue-400"
-        />
+    <div className="space-y-3">
+      <ParamControl
+        label="Kp (비례 계수)"
+        param="kp"
+        value={pidParams.kp}
+        min={0}
+        max={5}
+        step={0.01}
+        color="border-blue-500 text-blue-600 dark:text-blue-400"
+      />
 
-        <div className="h-px bg-gradient-to-r from-slate-200 via-slate-300 to-slate-200 dark:from-slate-800 dark:via-slate-700 dark:to-slate-800" />
+      <ParamControl
+        label="Ki (적분 계수)"
+        param="ki"
+        value={pidParams.ki}
+        min={0}
+        max={2}
+        step={0.01}
+        color="border-amber-500 text-amber-600 dark:text-amber-400"
+      />
 
-        <ParamControl
-          label="Ki (적분 계수)"
-          param="ki"
-          value={pidParams.ki}
-          min={0}
-          max={2}
-          step={0.01}
-          color="text-green-600 dark:text-green-400"
-        />
+      <ParamControl
+        label="Kd (미분 계수)"
+        param="kd"
+        value={pidParams.kd}
+        min={0}
+        max={2}
+        step={0.01}
+        color="border-violet-500 text-violet-600 dark:text-violet-400"
+      />
 
-        <div className="h-px bg-gradient-to-r from-slate-200 via-slate-300 to-slate-200 dark:from-slate-800 dark:via-slate-700 dark:to-slate-800" />
-
-        <ParamControl
-          label="Kd (미분 계수)"
-          param="kd"
-          value={pidParams.kd}
-          min={0}
-          max={2}
-          step={0.01}
-          color="text-red-600 dark:text-red-400"
-        />
-
-        <Button
-          onClick={onReset}
-          variant="outline"
-          size="md"
-          className="w-full mt-10"
-        >
-          초기화
-        </Button>
-      </CardContent>
-    </Card>
+      <button
+        onClick={onReset}
+        className="w-full mt-4 px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white font-semibold rounded-lg transition-colors duration-200"
+      >
+        🔄 초기화
+      </button>
+    </div>
   );
 }
