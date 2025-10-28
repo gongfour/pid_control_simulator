@@ -102,7 +102,7 @@ export function SimulationChart({ data }: SimulationChartProps) {
         position: 'top' as const,
         labels: {
           boxWidth: 12,
-          padding: 18,
+          padding: 20,
           font: { size: 13, weight: 500 },
           usePointStyle: true,
           color: '#64748b',
@@ -130,7 +130,7 @@ export function SimulationChart({ data }: SimulationChartProps) {
           text: 'Output / Reference',
           font: { size: 13, weight: 600 },
           color: '#64748b',
-          padding: { top: 10, bottom: 10 },
+          padding: { top: 12, bottom: 12 },
         },
         grid: {
           color: 'rgba(203, 213, 225, 0.2)',
@@ -139,7 +139,7 @@ export function SimulationChart({ data }: SimulationChartProps) {
         ticks: {
           font: { size: 12 },
           color: '#64748b',
-          padding: 8,
+          padding: 10,
         },
       },
       y1: {
@@ -151,7 +151,7 @@ export function SimulationChart({ data }: SimulationChartProps) {
           text: 'Control Signal',
           font: { size: 13, weight: 600 },
           color: '#64748b',
-          padding: { top: 10, bottom: 10 },
+          padding: { top: 12, bottom: 12 },
         },
         grid: {
           drawOnChartArea: false,
@@ -159,7 +159,7 @@ export function SimulationChart({ data }: SimulationChartProps) {
         ticks: {
           font: { size: 12 },
           color: '#64748b',
-          padding: 8,
+          padding: 10,
         },
       },
       x: {
@@ -168,7 +168,7 @@ export function SimulationChart({ data }: SimulationChartProps) {
           text: 'Time (s)',
           font: { size: 13, weight: 600 },
           color: '#64748b',
-          padding: { top: 10, bottom: 10 },
+          padding: { top: 12, bottom: 12 },
         },
         grid: {
           color: 'rgba(203, 213, 225, 0.1)',
@@ -176,7 +176,7 @@ export function SimulationChart({ data }: SimulationChartProps) {
         ticks: {
           font: { size: 12 },
           color: '#64748b',
-          padding: 8,
+          padding: 10,
           maxTicksLimit: 10,
         },
       },

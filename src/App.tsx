@@ -49,7 +49,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex justify-center">
-      <div className="w-full max-w-[1100px] px-4 md:px-8 lg:px-12 py-8 md:py-12 lg:py-16">
+      <div className="w-full max-w-[1400px] px-4 md:px-8 lg:px-12 py-8 md:py-12 lg:py-16">
         {/* Header */}
         <div className="mb-14 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-4">
@@ -61,7 +61,7 @@ function App() {
         </div>
 
         {/* Main Content Grid - Two Column Layout */}
-        <div className="grid gap-10 mb-14" style={{ gridTemplateColumns: '1fr 1fr' }}>
+        <div className="grid gap-10 mb-14" style={{ gridTemplateColumns: '420px 1fr' }}>
           {/* Left Column - Controls */}
           <div className="space-y-8">
             {/* PID Parameters */}

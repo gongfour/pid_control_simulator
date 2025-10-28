@@ -50,7 +50,7 @@ export function PIDControls({
     step: number;
     color: string;
   }) => (
-    <div className="space-y-4">
+    <div className="space-y-5">
       <div className="flex items-center justify-between">
         <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
           {label}
@@ -87,7 +87,7 @@ export function PIDControls({
           PID 파라미터
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-8">
+      <CardContent className="space-y-10">
         <ParamControl
           label="Kp (비례 계수)"
           param="kp"
@@ -126,7 +126,7 @@ export function PIDControls({
           onClick={onReset}
           variant="outline"
           size="md"
-          className="w-full mt-8"
+          className="w-full mt-10"
         >
           초기화
         </Button>
