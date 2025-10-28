@@ -31,7 +31,7 @@ interface SimulationChartProps {
 export function SimulationChart({ data }: SimulationChartProps) {
   if (data.length === 0) {
     return (
-      <Card>
+      <Card className="h-full">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <span className="text-2xl">📈</span>
@@ -40,7 +40,9 @@ export function SimulationChart({ data }: SimulationChartProps) {
         </CardHeader>
         <CardContent>
           <div className="h-96 flex items-center justify-center bg-slate-100 dark:bg-slate-800 rounded-lg">
-            <p className="text-slate-500 dark:text-slate-400">시뮬레이션을 실행하면 그래프가 표시됩니다</p>
+            <p className="text-slate-500 dark:text-slate-400 text-center">
+              시뮬레이션을 실행하면 그래프가 표시됩니다
+            </p>
           </div>
         </CardContent>
       </Card>
@@ -176,15 +178,15 @@ export function SimulationChart({ data }: SimulationChartProps) {
   };
 
   return (
-    <Card>
+    <Card className="h-full flex flex-col">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <span className="text-2xl">📈</span>
           시뮬레이션 결과
         </CardTitle>
       </CardHeader>
-      <CardContent>
-        <div style={{ height: '450px' }} className="w-full">
+      <CardContent className="flex-1 flex flex-col min-h-0">
+        <div style={{ height: '500px' }} className="w-full flex-1">
           <Line data={chartData} options={options} />
         </div>
       </CardContent>

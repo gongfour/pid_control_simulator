@@ -49,7 +49,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-4 md:p-8">
-      <div className="max-w-7xl mx-auto">
+      <div className="w-full max-w-[1400px] mx-auto">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-50 mb-2">
@@ -60,10 +60,10 @@ function App() {
           </p>
         </div>
 
-        {/* Main Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          {/* Left Column - Controls */}
-          <div className="lg:col-span-1 space-y-6">
+        {/* Main Grid Layout - Explicit two-column layout */}
+        <div className="grid gap-6 mb-8" style={{ gridTemplateColumns: '350px 1fr' }}>
+          {/* Left Column - Controls (Fixed width) */}
+          <div className="space-y-6">
             <PIDControls
               pidParams={pidParams}
               onParamsChange={setPidParams}
@@ -88,8 +88,8 @@ function App() {
             </Button>
           </div>
 
-          {/* Right Column - Chart */}
-          <div className="lg:col-span-2">
+          {/* Right Column - Chart (Flexible) */}
+          <div className="w-full">
             <SimulationChart data={simulationData} />
           </div>
         </div>
