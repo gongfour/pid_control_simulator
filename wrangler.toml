@@ -1,0 +1,20 @@
+name = "pid-control-simulator"
+type = "javascript"
+account_id = ""
+workers_dev = true
+route = ""
+zone_id = ""
+main = "src/index.tsx"
+
+[env.production]
+name = "pid-control-simulator-prod"
+route = ""
+zone_id = ""
+
+[build]
+cwd = "."
+command = "npm run build"
+watch_paths = ["src/**/*.ts", "src/**/*.tsx"]
+
+[build.upload]
+format = "modules"
