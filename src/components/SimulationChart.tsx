@@ -102,8 +102,8 @@ export function SimulationChart({ data }: SimulationChartProps) {
         position: 'top' as const,
         labels: {
           boxWidth: 12,
-          padding: 15,
-          font: { size: 12, weight: 500 },
+          padding: 18,
+          font: { size: 13, weight: 500 },
           usePointStyle: true,
           color: '#64748b',
         },
@@ -113,9 +113,9 @@ export function SimulationChart({ data }: SimulationChartProps) {
       },
       tooltip: {
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        padding: 12,
-        titleFont: { size: 13, weight: 600 },
-        bodyFont: { size: 12 },
+        padding: 14,
+        titleFont: { size: 14, weight: 600 },
+        bodyFont: { size: 13 },
         borderColor: 'rgba(255, 255, 255, 0.2)',
         borderWidth: 1,
       },
@@ -128,16 +128,18 @@ export function SimulationChart({ data }: SimulationChartProps) {
         title: {
           display: true,
           text: 'Output / Reference',
-          font: { size: 12, weight: 600 },
+          font: { size: 13, weight: 600 },
           color: '#64748b',
+          padding: { top: 10, bottom: 10 },
         },
         grid: {
           color: 'rgba(203, 213, 225, 0.2)',
           drawBorder: true,
         },
         ticks: {
-          font: { size: 11 },
+          font: { size: 12 },
           color: '#64748b',
+          padding: 8,
         },
       },
       y1: {
@@ -147,30 +149,34 @@ export function SimulationChart({ data }: SimulationChartProps) {
         title: {
           display: true,
           text: 'Control Signal',
-          font: { size: 12, weight: 600 },
+          font: { size: 13, weight: 600 },
           color: '#64748b',
+          padding: { top: 10, bottom: 10 },
         },
         grid: {
           drawOnChartArea: false,
         },
         ticks: {
-          font: { size: 11 },
+          font: { size: 12 },
           color: '#64748b',
+          padding: 8,
         },
       },
       x: {
         title: {
           display: true,
           text: 'Time (s)',
-          font: { size: 12, weight: 600 },
+          font: { size: 13, weight: 600 },
           color: '#64748b',
+          padding: { top: 10, bottom: 10 },
         },
         grid: {
           color: 'rgba(203, 213, 225, 0.1)',
         },
         ticks: {
-          font: { size: 11 },
+          font: { size: 12 },
           color: '#64748b',
+          padding: 8,
           maxTicksLimit: 10,
         },
       },
@@ -185,8 +191,8 @@ export function SimulationChart({ data }: SimulationChartProps) {
           시뮬레이션 결과
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex-1 flex flex-col min-h-0">
-        <div style={{ height: '500px' }} className="w-full flex-1">
+      <CardContent className="flex-1 flex flex-col min-h-0 p-8">
+        <div style={{ height: '550px' }} className="w-full flex-1">
           <Line data={chartData} options={options} />
         </div>
       </CardContent>
